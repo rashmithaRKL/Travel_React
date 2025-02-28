@@ -1,105 +1,121 @@
-import React, { useState } from 'react';
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { motion } from 'framer-motion';
+import Background3D from '../components/Background3D';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
   return (
-    <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="mx-auto max-w-2xl text-center"
-      >
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Contact Us</h2>
-        <p className="mt-2 text-lg leading-8 text-gray-600">
-          Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-        </p>
-      </motion.div>
-      <motion.form
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        onSubmit={handleSubmit}
-        className="mx-auto mt-16 max-w-xl sm:mt-20"
-      >
-        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div className="sm:col-span-2">
-            <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-900">
-              Name
-            </label>
-            <div className="mt-2.5">
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div className="sm:col-span-2">
-            <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">
-              Email
-            </label>
-            <div className="mt-2.5">
-              <input
-                type="email"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div className="sm:col-span-2">
-            <label htmlFor="message" className="block text-sm font-semibold leading-6 text-gray-900">
-              Message
-            </label>
-            <div className="mt-2.5">
-              <textarea
-                name="message"
-                id="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4}
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mt-10">
-          <button
-            type="submit"
-            className="block w-full rounded-md bg-primary px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    <div className="relative w-full min-h-screen bg-gradient-to-b from-green-800 to-green-600">
+      <Background3D />
+      
+      <div className="absolute inset-0 z-10">
+        <div className="container mx-auto px-4 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
           >
-            Send Message
-          </button>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Get in Touch
+            </h1>
+            
+            <p className="text-xl text-white/90 max-w-3xl mx-auto">
+              Have questions about your Sri Lankan adventure? We're here to help!
+              Reach out to us and start planning your dream vacation.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-8"
+            >
+              <form className="space-y-6">
+                <div>
+                  <label className="block text-white mb-2">Name</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40"
+                    placeholder="Your name"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-white mb-2">Email</label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40"
+                    placeholder="your@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-white mb-2">Message</label>
+                  <textarea
+                    rows={5}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40"
+                    placeholder="Tell us about your travel plans..."
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full px-8 py-4 bg-white text-green-800 rounded-lg font-semibold text-lg hover:bg-opacity-90 transition-all duration-300"
+                >
+                  Send Message
+                </button>
+              </form>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="h-full"
+            >
+              <div className="h-full bg-black/20 rounded-xl backdrop-blur-sm overflow-hidden">
+                <Canvas camera={{ position: [0, 0, 5] }}>
+                  <Suspense fallback={null}>
+                    <ambientLight intensity={0.5} />
+                    <pointLight position={[10, 10, 10]} />
+                    <mesh rotation={[0, Math.PI * 0.25, 0]}>
+                      <torusKnotGeometry args={[1, 0.3, 100, 16]} />
+                      <meshStandardMaterial color="#4CAF50" metalness={0.5} roughness={0.2} />
+                    </mesh>
+                  </Suspense>
+                </Canvas>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-20 text-center text-white"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl">
+                <h3 className="text-xl font-bold mb-2">Email</h3>
+                <p className="opacity-90">contact@srilankatravel.com</p>
+              </div>
+              
+              <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl">
+                <h3 className="text-xl font-bold mb-2">Phone</h3>
+                <p className="opacity-90">+94 11 234 5678</p>
+              </div>
+              
+              <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl">
+                <h3 className="text-xl font-bold mb-2">Address</h3>
+                <p className="opacity-90">123 Temple Road, Colombo, Sri Lanka</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
-      </motion.form>
+      </div>
     </div>
   );
 }
